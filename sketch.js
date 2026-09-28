@@ -19,7 +19,7 @@ function setup() {
     r.SetTargetFPS(60);
 }
 
-function color(x, field, fSize) {
+function chooseColor(x, field, fSize) {
     let colour = r.WHITE;
     return x + size >= field && x <= field + fSize ? (colour = r.RED) : colour;
 }
@@ -37,21 +37,21 @@ function draw() {
         0,
         size,
         height,
-        color(widthScanner1, pv.field1X, pv.field1Size),
+        chooseColor(widthScanner1, pv.field1X, pv.field1Size),
     );
     r.DrawRectangle(
         widthScanner2,
         0,
         size,
         height,
-        color(widthScanner2, pv.field2X, pv.field2Size),
+        chooseColor(widthScanner2, pv.field2X, pv.field2Size),
     );
     r.DrawRectangle(
         0,
         heightScanner3,
         width,
         size,
-        color(heightScanner3, pv.field3Y, pv.field3Size),
+        chooseColor(heightScanner3, pv.field3Y, pv.field3Size),
     );
 
     r.EndDrawing();
