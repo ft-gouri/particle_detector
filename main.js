@@ -1,16 +1,14 @@
-const sketch = require("./sketch");
+const sketch = require('./sketch');
 
 function main() {
-  const WIDTH = 400;
-  const HEIGHT = 300;
-  sketch.setup(WIDTH, HEIGHT);
+    sketch.setup();
 
-  while (sketch.running()) {
-    sketch.draw();
-    sketch.update();
-  }
+    while (sketch.running()) {
+        sketch.draw();
+        sketch.update();
+    }
 
-  sketch.teardown();
+    sketch.teardown();
 }
 
 main();
