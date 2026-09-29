@@ -24,43 +24,31 @@ function update() {
 }
 
 function drawRange(x, y, width, height, color) {
-    return r.DrawRectangle(x, y, width, height, color);
+    r.DrawRectangle(x, y, width, height, color);
 }
 
 function draw() {
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
 
-    particle_1 = drawRange(
-        p.field1X,
-        p.field1Y,
-        p.field1Size,
-        w.HEIGHT,
-        r.BLUE,
-    );
-    particle_2 = drawRange(
-        p.field2X,
-        p.field2Y,
-        p.field2Size,
-        w.HEIGHT,
-        r.BLUE,
-    );
-    particle_3 = drawRange(p.field3X, p.field3Y, w.WIDTH, p.field3Size, r.BLUE);
-    scanner_1 = drawRange(
+    drawRange(p.field1X, p.field1Y, p.field1Size, w.HEIGHT, r.BLUE);
+    drawRange(p.field2X, p.field2Y, p.field2Size, w.HEIGHT, r.BLUE);
+    drawRange(p.field3X, p.field3Y, w.WIDTH, p.field3Size, r.BLUE);
+    drawRange(
         s1.start,
         0,
         s1.width,
         w.HEIGHT,
         sf.chooseColor(s1.start, s1.width, p.field1X, p.field1Size),
     );
-    scanner_2 = drawRange(
+    drawRange(
         s2.start,
         0,
         s2.width,
         w.HEIGHT,
         sf.chooseColor(s2.start, s2.width, p.field2X, p.field2Size),
     );
-    scanner_3 = drawRange(
+    drawRange(
         0,
         s3.start,
         w.WIDTH,
