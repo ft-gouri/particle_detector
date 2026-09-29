@@ -1,11 +1,9 @@
-const r = require('raylib');
-
 let start = 0;
 let speed = 0.5;
-let size = 20;
+let width = 20;
 
 module.exports = {
     start,
-    size,
+    width,
     speed,
 };
