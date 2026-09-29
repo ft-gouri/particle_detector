@@ -1,10 +1,8 @@
 const r = require('raylib');
 const w = require('./window');
-const p = require('./particle_fields');
-const s1 = require('./scanner1');
-const s2 = require('./scanner2');
-const s3 = require('./scanner3');
-const sf = require('./sacnnerFunctions');
+const p = require('./particles');
+const scanners = require('./scanner');
+const lib = require('./scannerLib');
 
 function setup() {
     r.SetTraceLogLevel(r.LOG_NONE);
@@ -13,14 +11,14 @@ function setup() {
 }
 
 function update() {
-    s1.speed = sf.direction(s1.start, s1.width, w.WIDTH / 2, 0, s1.speed);
-    s1.start = sf.move(s1.start, s1.speed);
+    updateScanner(scanners.s1);
+    updateScanner(scanners.s2);
+    updateScanner(scanners.s3);
+}
 
-    s2.speed = sf.direction(s2.start, s2.width, w.WIDTH, w.WIDTH / 2, s2.speed);
-    s2.start = sf.move(s2.start, s2.speed);
-
-    s3.speed = sf.direction(s3.start, s3.width, w.HEIGHT, 0, s3.speed);
-    s3.start = sf.move(s3.start, s3.speed);
+function updateScanner(s) {
+    s.speed = lib.direction(s.start, s.width, s.end, s.y, s.speed);
+    s.start = lib.move(s.start, s.speed);
 }
 
 function drawRange(x, y, width, height, color) {
@@ -35,25 +33,40 @@ function draw() {
     drawRange(p.field2X, p.field2Y, p.field2Size, w.HEIGHT, r.BLUE);
     drawRange(p.field3X, p.field3Y, w.WIDTH, p.field3Size, r.BLUE);
     drawRange(
-        s1.start,
+        scanners.s1.start,
         0,
-        s1.width,
+        scanners.s1.width,
         w.HEIGHT,
-        sf.chooseColor(s1.start, s1.width, p.field1X, p.field1Size),
+        lib.chooseColor(
+            scanners.s1.start,
+            scanners.s1.width,
+            p.field1X,
+            p.field1Size,
+        ),
     );
     drawRange(
-        s2.start,
+        scanners.s2.start,
         0,
-        s2.width,
+        scanners.s2.width,
         w.HEIGHT,
-        sf.chooseColor(s2.start, s2.width, p.field2X, p.field2Size),
+        lib.chooseColor(
+            scanners.s2.start,
+            scanners.s2.width,
+            p.field2X,
+            p.field2Size,
+        ),
     );
     drawRange(
         0,
-        s3.start,
+        scanners.s3.start,
         w.WIDTH,
-        s3.width,
-        sf.chooseColor(s3.start, s3.width, p.field3Y, p.field3Size),
+        scanners.s3.width,
+        lib.chooseColor(
+            scanners.s3.start,
+            scanners.s3.width,
+            p.field3Y,
+            p.field3Size,
+        ),
     );
 
     r.EndDrawing();
