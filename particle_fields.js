@@ -1,5 +1,8 @@
 const r = require('raylib');
 
+const width = 300; //WINDOW WIDTH
+const height = 200; //WINDOW HEIGHT
+
 const field1X = 100;
 const field1Y = 0;
 const field1Size = 50;
@@ -13,6 +16,8 @@ const field3Y = 80;
 const field3Size = 20;
 
 module.exports = {
+    width,
+    height,
     field1X,
     field1Y,
     field1Size,
