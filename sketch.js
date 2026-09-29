@@ -1,19 +1,33 @@
 const r = require('raylib');
-const w = require('./window');
-const particle = require('./particles');
-const scanners = require('./scanner');
 const lib = require('./scannerLib');
+
+const WIDTH = 300;
+const HEIGHT = 200;
+
+const f1 = { x: 100, y: 0, width: 50 };
+const f2 = { x: 200, y: 0, width: 5 };
+const f3 = { x: 0, y: 80, width: 20 };
+
+const s1 = { start: 0, end: WIDTH / 2, speed: 0.5, width: 20, y: 0 };
+const s2 = {
+    start: WIDTH / 2,
+    end: WIDTH,
+    speed: 2,
+    width: 20,
+    y: WIDTH / 2,
+};
+const s3 = { start: 0, end: HEIGHT, speed: 3, width: 20, y: 0 };
 
 function setup() {
     r.SetTraceLogLevel(r.LOG_NONE);
-    r.InitWindow(w.WIDTH, w.HEIGHT, 'Particle Scanner');
+    r.InitWindow(WIDTH, HEIGHT, 'Particle Scanner');
     r.SetTargetFPS(60);
 }
 
 function update() {
-    updateScanner(scanners.s1);
-    updateScanner(scanners.s2);
-    updateScanner(scanners.s3);
+    updateScanner(s1);
+    updateScanner(s2);
+    updateScanner(s3);
 }
 
 function updateScanner(s) {
@@ -25,62 +39,29 @@ function draw() {
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
 
+    r.DrawRectangle(f1.x, f1.y, f1.width, HEIGHT, r.BLUE);
+    r.DrawRectangle(f2.x, f2.y, f2.width, HEIGHT, r.BLUE);
+    r.DrawRectangle(f3.x, f3.y, WIDTH, f3.width, r.BLUE);
     r.DrawRectangle(
-        particle.f1.x,
-        particle.f1.y,
-        particle.f1.width,
-        w.HEIGHT,
-        particle.f1.color,
-    );
-    r.DrawRectangle(
-        particle.f2.x,
-        particle.f2.y,
-        particle.f2.width,
-        w.HEIGHT,
-        particle.f2.color,
-    );
-    r.DrawRectangle(
-        particle.f3.x,
-        particle.f3.y,
-        w.WIDTH,
-        particle.f3.width,
-        particle.f3.color,
-    );
-    r.DrawRectangle(
-        scanners.s1.start,
+        s1.start,
         0,
-        scanners.s1.width,
-        w.HEIGHT,
-        lib.chooseColor(
-            scanners.s1.start,
-            scanners.s1.width,
-            particle.f1.x,
-            particle.f1.width,
-        ),
+        s1.width,
+        HEIGHT,
+        lib.chooseColor(s1.start, s1.width, f1.x, f1.width, f2.x, f2.width),
     );
     r.DrawRectangle(
-        scanners.s2.start,
+        s2.start,
         0,
-        scanners.s2.width,
-        w.HEIGHT,
-        lib.chooseColor(
-            scanners.s2.start,
-            scanners.s2.width,
-            particle.f2.x,
-            particle.f2.width,
-        ),
+        s2.width,
+        HEIGHT,
+        lib.chooseColor(s2.start, s2.width, f2.x, f2.width, f1.x, f1.width),
     );
     r.DrawRectangle(
         0,
-        scanners.s3.start,
-        w.WIDTH,
-        scanners.s3.width,
-        lib.chooseColor(
-            scanners.s3.start,
-            scanners.s3.width,
-            particle.f3.y,
-            particle.f3.width,
-        ),
+        s3.start,
+        WIDTH,
+        s3.width,
+        lib.chooseColor(s3.start, s3.width, f3.y, f3.width),
     );
 
     r.EndDrawing();
@@ -95,6 +76,8 @@ function teardown() {
 }
 
 module.exports = {
+    WIDTH,
+    HEIGHT,
     setup,
     running,
     draw,
