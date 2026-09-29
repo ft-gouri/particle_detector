@@ -1,6 +1,6 @@
 const r = require('raylib');
 const w = require('./window');
-const p = require('./particles');
+const particle = require('./particles');
 const scanners = require('./scanner');
 const lib = require('./scannerLib');
 
@@ -21,18 +21,32 @@ function updateScanner(s) {
     s.start = lib.move(s.start, s.speed);
 }
 
-function drawRange(x, y, width, height, color) {
-    r.DrawRectangle(x, y, width, height, color);
-}
-
 function draw() {
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
 
-    drawRange(p.field1X, p.field1Y, p.field1Size, w.HEIGHT, r.BLUE);
-    drawRange(p.field2X, p.field2Y, p.field2Size, w.HEIGHT, r.BLUE);
-    drawRange(p.field3X, p.field3Y, w.WIDTH, p.field3Size, r.BLUE);
-    drawRange(
+    r.DrawRectangle(
+        particle.f1.x,
+        particle.f1.y,
+        particle.f1.width,
+        w.HEIGHT,
+        particle.f1.color,
+    );
+    r.DrawRectangle(
+        particle.f2.x,
+        particle.f2.y,
+        particle.f2.width,
+        w.HEIGHT,
+        particle.f2.color,
+    );
+    r.DrawRectangle(
+        particle.f3.x,
+        particle.f3.y,
+        w.WIDTH,
+        particle.f3.width,
+        particle.f3.color,
+    );
+    r.DrawRectangle(
         scanners.s1.start,
         0,
         scanners.s1.width,
@@ -40,11 +54,11 @@ function draw() {
         lib.chooseColor(
             scanners.s1.start,
             scanners.s1.width,
-            p.field1X,
-            p.field1Size,
+            particle.f1.x,
+            particle.f1.width,
         ),
     );
-    drawRange(
+    r.DrawRectangle(
         scanners.s2.start,
         0,
         scanners.s2.width,
@@ -52,11 +66,11 @@ function draw() {
         lib.chooseColor(
             scanners.s2.start,
             scanners.s2.width,
-            p.field2X,
-            p.field2Size,
+            particle.f2.x,
+            particle.f2.width,
         ),
     );
-    drawRange(
+    r.DrawRectangle(
         0,
         scanners.s3.start,
         w.WIDTH,
@@ -64,8 +78,8 @@ function draw() {
         lib.chooseColor(
             scanners.s3.start,
             scanners.s3.width,
-            p.field3Y,
-            p.field3Size,
+            particle.f3.y,
+            particle.f3.width,
         ),
     );
 
