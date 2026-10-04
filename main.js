@@ -1,11 +1,17 @@
 const sketch = require('./sketch');
 
 function main() {
-    sketch.setup();
+    const world = {
+        width: 300,
+        height: 200,
+        fps: 60,
+    };
+
+    sketch.setup(world);
 
     while (sketch.running()) {
-        sketch.draw();
-        sketch.update();
+        sketch.update(world);
+        sketch.draw(world);
     }
 
     sketch.teardown();

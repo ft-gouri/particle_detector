@@ -1,70 +1,87 @@
 const r = require('raylib');
-const scLib = require('./scannerLib');
+const particles = require('./particles');
+const range = require('./range');
+const detector = require('./detector');
 
-const WIDTH = 300;
-const HEIGHT = 200;
-const MID = WIDTH / 2;
-
-const particle1 = { x: 100, y: 0, width: 50 };
-const particle2 = { x: 200, y: 0, width: 5 };
-const particle3 = { x: 0, y: 80, width: 20 };
-
-const s1 = { start: 0, end: MID, speed: 0.5, width: 20, y: 0 };
-const s2 = { start: MID, end: WIDTH, speed: 2, width: 20, y: MID };
-const s3 = { start: 0, end: HEIGHT, speed: 3, width: 20, y: 0 };
-
-function setup() {
+function setup(world) {
     r.SetTraceLogLevel(r.LOG_NONE);
-    r.InitWindow(WIDTH, HEIGHT, 'Particle Scanner');
-    r.SetTargetFPS(60);
+    r.InitWindow(world.width, world.height, 'Particle Scanner');
+    r.SetTargetFPS(world.fps);
+
+    world.p1 = particles.create({
+        x: 100,
+        y: 0,
+        width: 50,
+        height: world.height,
+    });
+    world.p2 = particles.create({
+        x: 200,
+        y: 0,
+        width: 5,
+        height: world.height,
+    });
+    world.p3 = particles.create({
+        x: 0,
+        y: 80,
+        width: world.width,
+        height: 20,
+    });
+
+    world.r1 = range.create(world.p1);
+    world.r2 = range.create(world.p2);
+    world.r3 = range.create(world.p3);
+
+    world.s1 = detector.create({
+        x: 0,
+        y: 0,
+        width: 20,
+        height: world.height,
+        lower: 0,
+        upper: world.width / 2,
+        speed: 0.5,
+        direction: 'x',
+    });
+
+    world.s2 = detector.create({
+        x: world.width / 2,
+        y: 0,
+        width: 20,
+        height: world.height,
+        lower: world.width / 2,
+        upper: world.width,
+        speed: 2,
+        direction: 'x',
+    });
+
+    world.s3 = detector.create({
+        x: 0,
+        y: 0,
+        width: world.width,
+        height: 20,
+        lower: 0,
+        upper: world.height,
+        speed: 3,
+        direction: 'y',
+    });
 }
 
-function update() {
-    updateScanner(s1);
-    updateScanner(s2);
-    updateScanner(s3);
+function update(world) {
+    detector.update(world.s1);
+    detector.update(world.s2);
+    detector.update(world.s3);
 }
 
-function updateScanner(s) {
-    s.speed = scLib.determineDirection(s.start, s.width, s.end, s.y, s.speed);
-    s.start = scLib.move(s.start, s.speed);
-}
-
-function draw() {
+function draw(world) {
     r.BeginDrawing();
     r.ClearBackground(r.BLACK);
 
-    r.DrawRectangle(particle1.x, particle1.y, particle1.width, HEIGHT, r.BLUE);
-    r.DrawRectangle(particle2.x, particle2.y, particle2.width, HEIGHT, r.BLUE);
-    r.DrawRectangle(particle3.x, particle3.y, WIDTH, particle3.width, r.BLUE);
+    particles.draw(world.p1);
+    particles.draw(world.p2);
+    particles.draw(world.p3);
 
-    const color1 = scLib.determineColor(
-        s1.start,
-        s1.width,
-        particle1.x,
-        particle1.width,
-        particle2.x,
-        particle2.width,
-    );
-    r.DrawRectangle(s1.start, 0, s1.width, HEIGHT, color1);
-
-    const color2 = scLib.determineColor(
-        s2.start,
-        s2.width,
-        particle2.x,
-        particle2.width,
-        particle1.x,
-        particle1.width,
-    );
-    r.DrawRectangle(s2.start, 0, s2.width, HEIGHT, color2);
-
-    const color3 = scLib.determineColor(
-        s3.start,
-        s3.width,
-        particle3.y,
-        particle3.width,
-    );
-    r.DrawRectangle(0, s3.start, WIDTH, s3.width, color3);
+    detector.draw(world.s1, [world.r1, world.r2]);
+    detector.draw(world.s2, [world.r1, world.r2]);
+    detector.draw(world.s3, [world.r3]);
 
     r.EndDrawing();
 }
@@ -78,11 +95,9 @@ function teardown() {
 }
 
 module.exports = {
-    WIDTH,
-    HEIGHT,
     setup,
-    running,
-    draw,
     update,
+    draw,
+    running,
     teardown,
 };
