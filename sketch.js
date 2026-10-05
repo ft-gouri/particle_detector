@@ -79,9 +79,9 @@ function draw(world) {
     particles.draw(world.p2);
     particles.draw(world.p3);
 
-    detector.draw(world.s1, [world.r1, world.r2]);
-    detector.draw(world.s2, [world.r1, world.r2]);
-    detector.draw(world.s3, [world.r3]);
+    detector.draw(world.s1, world.p1, world.p2);
+    detector.draw(world.s2, world.p1, world.p2);
+    detector.draw(world.s3, world.p3);
 
     r.EndDrawing();
 }

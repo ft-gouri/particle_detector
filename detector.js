@@ -38,12 +38,12 @@ function update(detector) {
     move(detector);
 }
 
-function determineColor(detector, ranges) {
-    return range.overlap(detector, ranges) ? r.RED : r.WHITE;
+function determineColor(detector, range1, range2) {
+    return range.overlap(detector, range1, range2) ? r.RED : r.WHITE;
 }
 
-function draw(detector, ranges) {
-    const color = determineColor(detector, ranges);
+function draw(detector, range1, range2) {
+    const color = determineColor(detector, range1, range2);
 
     r.DrawRectangle(
         detector.x,
