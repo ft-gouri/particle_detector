@@ -1,19 +1,6 @@
 const r = require('raylib');
 const range = require('./range');
 
-function create(detector) {
-    return {
-        x: detector.x,
-        y: detector.y,
-        width: detector.width,
-        height: detector.height,
-        lower: detector.lower,
-        upper: detector.upper,
-        speed: detector.speed,
-        direction: detector.direction,
-    };
-}
-
 function determineDirection(detector) {
     const position = detector.direction === 'x' ? detector.x : detector.y;
 
@@ -55,7 +42,6 @@ function draw(detector, range1, range2) {
 }
 
 module.exports = {
-    create,
     determineDirection,
     move,
     update,

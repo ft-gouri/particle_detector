@@ -1,14 +1,5 @@
 const r = require('raylib');
 
-function create(particle) {
-    return {
-        x: particle.x,
-        y: particle.y,
-        width: particle.width,
-        height: particle.height,
-    };
-}
-
 function draw(particle) {
     r.DrawRectangle(
         particle.x,
@@ -20,6 +11,5 @@ function draw(particle) {
 }
 
 module.exports = {
-    create,
     draw,
 };
